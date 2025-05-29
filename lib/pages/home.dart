@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.green[800],
                 side: BorderSide(color: Colors.green[800]!, width: 2),
-                padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 85, vertical: 20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),
