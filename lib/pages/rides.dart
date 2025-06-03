@@ -30,7 +30,10 @@ class RidesPage extends StatelessWidget {
                     ),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const HomePage()),
+                          (route) => false,
+                        );
                       },
                       icon: const Icon(
                         Icons.arrow_back,
