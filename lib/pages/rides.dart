@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'ride_popup.dart'; 
+import 'schedule_ride_screen.dart'; 
 
 class RidesPage extends StatelessWidget {
   const RidesPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class RidesPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(25),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withAlpha((0.1 * 255).toInt()),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -66,7 +67,13 @@ class RidesPage extends StatelessWidget {
                       ],
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // This line navigates to ScheduleRideScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ScheduleRideScreen()),
+                        );
+                      },
                       icon: const Icon(
                         Icons.add,
                         color: Colors.white,

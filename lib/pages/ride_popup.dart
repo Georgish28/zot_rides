@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zot_rides/pages/view_ride_info.dart'; // Add this import
 
 class RequestRidePopup extends StatefulWidget {
   final String destination;
@@ -418,15 +419,18 @@ class _RequestRidePopupState extends State<RequestRidePopup> {
                         borderRadius: BorderRadius.circular(16),
                         onTap: () {
                           // Handle submit request
-                          Navigator.of(context).pop();
-                          // Show success message or navigate to confirmation
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Ride request submitted for ${widget.destination}'),
-                              backgroundColor: const Color(0xFF2D5A3D),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                          Navigator.of(context).pop(); // Close the popup
+
+                          // Navigate to RideInformationScreen with ride data
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => RideInformationScreen(
+                                rideDestination: widget.destination,
+                                rideTime: widget.time,
+                                rideDate: _getCurrentDate(), // Helper function to format date
+                                pickupLocation: widget.pickupLocation ?? 'UTC',
+                                driverName: widget.driverName,
+                                driverRating: widget.driverRating,
                               ),
                             ),
                           );
@@ -461,6 +465,12 @@ class _RequestRidePopupState extends State<RequestRidePopup> {
     _otherLocationController.dispose();
     _riderNotesController.dispose();
     super.dispose();
+  }
+
+  // Helper function to get current date in the format used by the app
+  String _getCurrentDate() {
+    final now = DateTime.now();
+    return "${now.month}/${now.day}";
   }
 }
 
