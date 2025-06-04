@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home.dart'; 
+import 'home.dart';
+import 'ride_popup.dart'; 
 
 class RidesPage extends StatelessWidget {
   const RidesPage({Key? key}) : super(key: key);
@@ -131,6 +132,8 @@ class RidesPage extends StatelessWidget {
                     price: '\$4.99',
                     spotsLeft: 2,
                     pickupLocation: 'UTC',
+                    driverName: 'Sam',
+                    driverRating: 4.5,
                   ),
                   SizedBox(height: 16),
                   RideCard(
@@ -139,6 +142,8 @@ class RidesPage extends StatelessWidget {
                     price: '\$3.24',
                     spotsLeft: 3,
                     pickupLocation: 'FP',
+                    driverName: 'Sam',
+                    driverRating: 4.5,
                   ),
                   SizedBox(height: 16),
                   RideCard(
@@ -147,6 +152,8 @@ class RidesPage extends StatelessWidget {
                     price: '\$1.89',
                     spotsLeft: 1,
                     pickupLocation: 'FP',
+                    driverName: 'Sam',
+                    driverRating: 4.5,
                   ),
                   SizedBox(height: 16),
                   RideCard(
@@ -155,6 +162,8 @@ class RidesPage extends StatelessWidget {
                     price: '\$2.54',
                     spotsLeft: 4,
                     pickupLocation: 'UTC',
+                    driverName: 'Sam',
+                    driverRating: 4.5,
                     hasIndicator: true,
                   ),
                   SizedBox(height: 16),
@@ -164,6 +173,8 @@ class RidesPage extends StatelessWidget {
                     price: '\$3.10',
                     spotsLeft: null,
                     pickupLocation: null,
+                    driverName: 'Sam',
+                    driverRating: 4.5,
                   ),
                   SizedBox(height: 32),
                 ],
@@ -182,6 +193,8 @@ class RideCard extends StatelessWidget {
   final String price;
   final int? spotsLeft;
   final String? pickupLocation;
+  final String driverName;
+  final double driverRating;
   final bool hasIndicator;
 
   const RideCard({
@@ -189,6 +202,8 @@ class RideCard extends StatelessWidget {
     required this.destination,
     required this.time,
     required this.price,
+    required this.driverName,
+    required this.driverRating,
     this.spotsLeft,
     this.pickupLocation,
     this.hasIndicator = false,
@@ -238,12 +253,12 @@ class RideCard extends StatelessWidget {
                   Container(
                     width: 8,
                     height: 8,
+                    margin: const EdgeInsets.only(right: 12),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                   ),
-                const SizedBox(width: 12),
                 Text(
                   price,
                   style: const TextStyle(
@@ -269,7 +284,7 @@ class RideCard extends StatelessWidget {
             
             const SizedBox(height: 16),
             
-            // Info row
+            // Info row with spots left and pickup location
             if (spotsLeft != null && pickupLocation != null)
               Row(
                 children: [
@@ -296,85 +311,104 @@ class RideCard extends StatelessWidget {
             
             const SizedBox(height: 16),
             
-            // Buttons
+            // Bottom row with driver info and button
             Row(
               children: [
+                // Driver info
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2D5A3D),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        driverName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () {},
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 14),
-                          child: Center(
-                            child: Text(
-                              'Book',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            driverRating.toString(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.star,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // Request Ride Button
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2D5A3D),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () {
+                        showRequestRidePopup(
+                          context,
+                          destination: destination,
+                          time: time,
+                          price: price,
+                          driverName: driverName,
+                          driverRating: driverRating,
+                          pickupLocation: pickupLocation,
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        child: Text(
+                          'Request Ride',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2D5A3D),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () {},
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 14),
-                          child: Center(
-                              child: Text(
-                                'Request Pickup',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/pages/home.dart';
+import '/pages/post_drive.dart';
 
 class DriverPage extends StatelessWidget {
   @override
@@ -21,20 +22,39 @@ class DriverPage extends StatelessWidget {
           },
         ),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.person_outline, size: 100, color: Color(0xFF204E34)),
-            SizedBox(height: 20),
-            Text(
+            const Icon(Icons.person_outline, size: 100, color: Color(0xFF204E34)),
+            const SizedBox(height: 20),
+            const Text(
               'Ready to drive?',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Start earning by giving rides to fellow Anteaters',
               style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF204E34),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PostDrivePage()),
+                );
+              },
+              child: const Text('Post a Ride'),
             ),
           ],
         ),
